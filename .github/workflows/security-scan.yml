@@ -1,0 +1,17 @@
+name: Security Scan
+on: [push, pull_request]
+jobs:
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install safety
+        run: pip install safety
+      - name: Run safety check
+        run: safety check
+      - name: Run bandit
+        run: pip install bandit && bandit -r .
